@@ -2,9 +2,6 @@ use anyhow::Result;
 use clap::Parser;
 use linsearch::{search_issues, Args, LinearClient, SearchOptions};
 
-mod api {
-    pub use linsearch::api::*;
-}
 mod ui {
     pub use linsearch::ui::*;
 }
