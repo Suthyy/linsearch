@@ -69,14 +69,20 @@ async fn main() -> Result<()> {
 
     let issues = client.fetch_issues(&team_id).await?;
 
-    let search_options = SearchOptions::new(args.search_term.clone(), args.descriptions, args.comments);
+    let search_options =
+        SearchOptions::new(args.search_term.clone(), args.descriptions, args.comments);
     let matches = search_issues(&client, issues, &search_options).await?;
 
     if client.request_count() >= client.max_requests() {
         ui::display_rate_limit_warning(client.max_requests());
     }
 
-    ui::display_results(&matches, &args.search_term, client.request_count(), client.max_requests());
+    ui::display_results(
+        &matches,
+        &args.search_term,
+        client.request_count(),
+        client.max_requests(),
+    );
 
     Ok(())
 }

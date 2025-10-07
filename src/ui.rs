@@ -37,7 +37,12 @@ pub fn select_team(teams: &[Team], choice: &str) -> Option<String> {
     None
 }
 
-pub fn display_search_info(search_term: &str, max_requests: usize, descriptions: bool, comments: bool) {
+pub fn display_search_info(
+    search_term: &str,
+    max_requests: usize,
+    descriptions: bool,
+    comments: bool,
+) {
     println!("\n🔍 Searching for: '{}'", search_term);
     println!("📊 Max requests allowed: {}", max_requests);
     println!(
@@ -48,7 +53,12 @@ pub fn display_search_info(search_term: &str, max_requests: usize, descriptions:
     println!();
 }
 
-pub fn display_results(matches: &[Match], search_term: &str, request_count: usize, max_requests: usize) {
+pub fn display_results(
+    matches: &[Match],
+    search_term: &str,
+    request_count: usize,
+    max_requests: usize,
+) {
     println!(
         "\n📈 Total API requests used: {}/{}\n",
         request_count, max_requests
@@ -91,9 +101,6 @@ pub fn display_results(matches: &[Match], search_term: &str, request_count: usiz
 }
 
 pub fn display_rate_limit_warning(max_requests: usize) {
-    println!(
-        "\n⚠️  Maximum requests reached ({} requests)",
-        max_requests
-    );
+    println!("\n⚠️  Maximum requests reached ({} requests)", max_requests);
     println!("Results may be incomplete.\n");
 }

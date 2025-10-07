@@ -78,9 +78,8 @@ impl LinearClient {
 
         loop {
             let variables = json!({ "after": after });
-            let data: Option<TeamsData> = self
-                .execute_query(queries::TEAMS_QUERY, variables)
-                .await?;
+            let data: Option<TeamsData> =
+                self.execute_query(queries::TEAMS_QUERY, variables).await?;
 
             if let Some(data) = data {
                 teams.extend(data.teams.nodes);
@@ -106,9 +105,8 @@ impl LinearClient {
             }
 
             let variables = json!({ "teamId": team_id, "after": after });
-            let data: Option<IssuesData> = self
-                .execute_query(queries::ISSUES_QUERY, variables)
-                .await?;
+            let data: Option<IssuesData> =
+                self.execute_query(queries::ISSUES_QUERY, variables).await?;
 
             if let Some(data) = data {
                 issues.extend(data.issues.nodes);
