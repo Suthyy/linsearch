@@ -31,6 +31,30 @@ cargo build --release
 
 Download the latest release from the [Releases](https://github.com/Suthyy/linsearch/releases) page.
 
+#### macOS Security Note
+
+macOS may block the binary because it's not code-signed (coming soon). To run it:
+
+**Option 1: Remove quarantine flag**
+
+```bash
+xattr -d com.apple.quarantine linsearch-macos-aarch64
+chmod +x linsearch-macos-aarch64
+./linsearch-macos-aarch64 --help
+```
+
+**Option 2: Right-click method**
+
+1. Right-click (or Control+click) the downloaded file in Finder
+2. Click "Open"
+3. Click "Open" again in the security dialog
+
+**Option 3: System Settings**
+
+1. Try to open the file
+2. Go to System Settings → Privacy & Security
+3. Click "Open Anyway" next to the security warning
+
 ## Usage
 
 ### Basic Usage
