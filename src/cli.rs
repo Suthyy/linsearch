@@ -24,4 +24,12 @@ pub struct Args {
     /// Search in comments
     #[arg(short, long)]
     pub comments: bool,
+
+    /// Output file path (defaults to linsearch-results.md)
+    #[arg(short, long, default_value = "linsearch-results.md")]
+    pub output: String,
+
+    /// Display results in terminal instead of saving to file
+    #[arg(long)]
+    pub terminal: bool,
 }

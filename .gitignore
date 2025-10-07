@@ -21,3 +21,7 @@ Thumbs.db
 # Environment
 .env
 .env.local
+
+# Search results
+linsearch-results.md
+*-results.md

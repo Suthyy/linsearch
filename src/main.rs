@@ -13,7 +13,11 @@ async fn main() -> Result<()> {
     // Prompt for API key if not provided
     let api_key = match args.api_key {
         Some(key) => key,
-        None => ui::prompt("Enter Linear API key: ")?,
+        None => {
+            return Err(anyhow::anyhow!(
+                "API key required. Set LINEAR_API_KEY environment variable or use --api-key"
+            ));
+        }
     };
 
     if api_key.is_empty() {
@@ -26,31 +30,21 @@ async fn main() -> Result<()> {
     let team_id = match args.team_id {
         Some(id) => id,
         None => {
-            println!("Fetching teams...");
+            ui::display_fetching_teams();
             let teams = client.fetch_teams().await?;
 
             if teams.is_empty() {
                 anyhow::bail!("No teams found");
             }
 
-            ui::display_teams(&teams);
-
-            let choice = ui::prompt("\nEnter team number or team ID: ")?;
-
-            ui::select_team(&teams, &choice)
-                .ok_or_else(|| anyhow::anyhow!("Invalid team selection"))?
+            ui::select_team_interactive(&teams)?
         }
     };
 
     // Prompt for search options if not provided
     if !args.descriptions && !args.comments {
-        let desc_input = ui::prompt("Search in descriptions? (y/n): ")?;
-        args.descriptions =
-            desc_input.eq_ignore_ascii_case("y") || desc_input.eq_ignore_ascii_case("yes");
-
-        let comments_input = ui::prompt("Search in comments? (y/n): ")?;
-        args.comments =
-            comments_input.eq_ignore_ascii_case("y") || comments_input.eq_ignore_ascii_case("yes");
+        args.descriptions = ui::confirm_search_descriptions()?;
+        args.comments = ui::confirm_search_comments()?;
     }
 
     if !args.descriptions && !args.comments {
@@ -64,6 +58,7 @@ async fn main() -> Result<()> {
         args.comments,
     );
 
+    ui::display_fetching_issues();
     let issues = client.fetch_issues(&team_id).await?;
 
     let search_options =
@@ -74,12 +69,24 @@ async fn main() -> Result<()> {
         ui::display_rate_limit_warning(client.max_requests());
     }
 
-    ui::display_results(
-        &matches,
-        &args.search_term,
-        client.request_count(),
-        client.max_requests(),
-    );
+    // Output results - file by default, terminal if --terminal flag is set
+    if args.terminal {
+        ui::display_results(
+            &matches,
+            &args.search_term,
+            client.request_count(),
+            client.max_requests(),
+        );
+    } else {
+        ui::save_results_to_file(
+            &args.output,
+            &matches,
+            &args.search_term,
+            client.request_count(),
+            client.max_requests(),
+        )?;
+        ui::display_file_saved(&args.output, matches.len());
+    }
 
     Ok(())
 }

@@ -59,12 +59,20 @@ chmod +x linsearch-macos-aarch64
 
 ### Basic Usage
 
+**By default, results are saved to a file** (`linsearch-results.md`) with clickable links:
+
 ```bash
-# Search with interactive prompts
+# Search with interactive prompts - saves to linsearch-results.md
 linsearch "search term"
 
 # Search with all options specified
 linsearch "search term" -a YOUR_API_KEY -t TEAM_ID -d -c
+
+# Display results in terminal instead of file
+linsearch "search term" --terminal
+
+# Save to custom file
+linsearch "search term" -o my-results.md
 ```
 
 ### Options
@@ -74,6 +82,8 @@ linsearch "search term" -a YOUR_API_KEY -t TEAM_ID -d -c
 - `-t, --team-id <TEAM_ID>` - Team ID to search within
 - `-d, --descriptions` - Search in issue descriptions
 - `-c, --comments` - Search in issue comments
+- `-o, --output <FILE>` - Output file path (default: `linsearch-results.md`)
+- `--terminal` - Display results in terminal instead of saving to file
 
 ### Environment Variables
 
@@ -88,7 +98,7 @@ Add this to your `~/.zshrc` or `~/.bashrc` to make it permanent.
 ### Examples
 
 ```bash
-# Search for "authentication" in descriptions and comments
+# Search for "authentication" in descriptions and comments (saves to file)
 linsearch "authentication" -d -c
 
 # Search with API key from environment
@@ -97,7 +107,25 @@ linsearch "bug" -d
 
 # Search specific team
 linsearch "feature" -t "team_id_here" -d -c
+
+# Display results in terminal instead of file
+linsearch "authentication" -d -c --terminal
+
+# Save to custom file location
+linsearch "bug" -d -c -o ~/Documents/linear-bugs.md
 ```
+
+### Output Format
+
+Results are saved as **Markdown** with:
+
+- ✅ Clickable issue URLs
+- ✅ Team information
+- ✅ Match locations (title, description)
+- ✅ Comment matches with links
+- ✅ API usage statistics
+
+Open the file in any Markdown viewer or text editor to see formatted, clickable results!
 
 ## Development
 
