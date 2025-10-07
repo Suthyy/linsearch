@@ -17,7 +17,7 @@ pub const ISSUES_QUERY: &str = r#"
 "#;
 
 pub const ISSUE_COMMENTS_QUERY: &str = r#"
-    query IssueComments($issueId: ID!, $after: String) {
+    query IssueComments($issueId: String!, $after: String) {
         issue(id: $issueId) {
             id
             comments(first: 100, after: $after) {
