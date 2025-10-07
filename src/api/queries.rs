@@ -8,7 +8,7 @@ pub const TEAMS_QUERY: &str = r#"
 "#;
 
 pub const ISSUES_QUERY: &str = r#"
-    query Issues($teamId: String!, $after: String) {
+    query Issues($teamId: ID!, $after: String) {
         issues(first: 100, after: $after, orderBy: updatedAt, filter: { team: { id: { eq: $teamId } } }) {
             nodes { id identifier title url description team { key name } }
             pageInfo { hasNextPage endCursor }
@@ -17,7 +17,7 @@ pub const ISSUES_QUERY: &str = r#"
 "#;
 
 pub const ISSUE_COMMENTS_QUERY: &str = r#"
-    query IssueComments($issueId: String!, $after: String) {
+    query IssueComments($issueId: ID!, $after: String) {
         issue(id: $issueId) {
             id
             comments(first: 100, after: $after) {
